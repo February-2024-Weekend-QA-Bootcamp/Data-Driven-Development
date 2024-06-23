@@ -1,54 +1,30 @@
 package common;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+
+import com.google.common.io.Files;
+
 import reports.Loggers;
 
 public class CommonActions {
 	public WebDriver driver;
-
-	// common method for click ()
-	public static void clickElement(WebElement element) {
-		try {
-			element.click();
-			Loggers.logTheTest(element + "<---------> has been clicked");
-		} catch (NoSuchElementException | NullPointerException e) {
-			// e.printStackTrace();
-			System.out.println("Exception is: " + e);
-			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
-			// getMessage() Returns the detail message string of this throwable.
-		}
-	}
-
-	// common method for sendKeys()
-	public static void inputText(WebElement element, String input) {
-		try {
-			element.sendKeys(input);
-			Loggers.logTheTest(input + " <-----> has been put into <-----> " + element);
-		} catch (NoSuchElementException | NullPointerException e) {
-			e.printStackTrace();
-			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
-		}
-	}
-
-	// common method for sleep()
-	public static void pause(long sec) {
-		try {
-			Thread.sleep(sec * 1000);
-			Loggers.logTheTest("Sleeping ... zZz " + sec);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			Loggers.logTheTest("Sleep interrupted");
-		}
-	}
-
+	
 	public static void elementDisplayed(WebElement element) {
 		try {
 			boolean flag = element.isDisplayed();
@@ -91,18 +67,93 @@ public class CommonActions {
 			Assert.fail();
 		}
 	}
-
-	public static void verifyTextOfTheWebElement(WebElement element, String expected) {
-		String actual = element.getText();
-		Loggers.logTheTest(element + " ---> Actual text : " + actual + ". Expected text : " + expected);
-		Assert.assertEquals(actual, expected, "Text In the WebElement doesn't match");
-	}
-
+	
 	public static void verifyCurrentUrl(WebDriver driver, String expectedURL) {
 		String currentURL = driver.getCurrentUrl();
 		Loggers.logTheTest("Current URL : " + currentURL + ", Expected URL : " + expectedURL);
 		Assert.assertEquals(currentURL, expectedURL, "Current URL is not correct");
 	}
+		
+	public static void verifyTextOfTheWebElement(WebElement element, String expected) {
+		String actual = element.getText();
+		Loggers.logTheTest(element + " ---> Actual text : " + actual + ". Expected text : " + expected);
+		Assert.assertEquals(actual, expected, "Text In the WebElement doesn't match");
+	}
+	
+	// common method for click ()
+	public static void clickElement(WebElement element) {
+		try {
+			element.click();
+			Loggers.logTheTest(element + "<---------> has been clicked");
+		} catch (NoSuchElementException | NullPointerException e) {
+			// e.printStackTrace();
+			System.out.println("Exception is: " + e);
+			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
+			// getMessage() Returns the detail message string of this throwable.
+		}
+	}
+	
+	// common method for sleep()
+	public static void pause(long sec) {
+		try {
+			Thread.sleep(sec * 1000);
+			Loggers.logTheTest("Sleeping ... zZz " + sec);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			Loggers.logTheTest("Sleep interrupted");
+		}
+	}
+	
+	// common method for sendKeys()
+	public static void inputText(WebElement element, String input) {
+		try {
+			element.sendKeys(input);
+			Loggers.logTheTest(input + " <-----> has been put into <-----> " + element);
+		} catch (NoSuchElementException | NullPointerException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
+		}
+	}
+
+	public static void usingJavascriptExecutor(WebDriver driver, String script, WebElement element) {
+		// JavascriptExecutor js = (JavascriptExecutor)driver; // instead of writing
+		// this 'js', we can write below one
+		((JavascriptExecutor) driver).executeScript(script, element);
+		Loggers.logTheTest("Javascript Executor executing ..." + script + " on element ---> " + element);
+	}	
+	
+	public static void validationOfHeader(WebElement element, String expectedHeader) {
+		String actualHeader = element.getText();
+		Assert.assertEquals(actualHeader, expectedHeader, "Header doesn't match");
+		Loggers.logTheTest(element + " ---> Actual Header : " + actualHeader + ". Expected Header : " + expectedHeader);
+	}
+
+	public static void validationOfSubHeader(WebElement element, String expectedSubHeader) {
+		String actualSubHeader = element.getText();
+		Assert.assertEquals(actualSubHeader, expectedSubHeader, "Sub Header doesn't match");
+		Loggers.logTheTest(element + " ---> Actual Sub Header : " + actualSubHeader + ". Expected SubHeader : "
+				+ expectedSubHeader);
+	}
+	
+	public static void validationOfOtherHeader(WebElement element, String expectedOtherHeader) {
+		String actualOtherHeader = element.getText();
+		Assert.assertEquals(actualOtherHeader, expectedOtherHeader, "Other Header doesn't match");
+		Loggers.logTheTest(element + " ---> Actual Other Header : " + actualOtherHeader + ". Expected Other Header : "
+				+ expectedOtherHeader);
+	}
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+
+	
 
 	public static void clearTextFromTheField(WebElement element) {
 		try {
@@ -151,19 +202,7 @@ public class CommonActions {
 		}
 	}
 
-	public static void validationOfHeader(WebElement element, String expectedHeader) {
-		String actualHeader = element.getText();
-		Assert.assertEquals(actualHeader, expectedHeader, "Header doesn't match");
-		Loggers.logTheTest(element + " ---> Actual Header : " + actualHeader + ". Expected Header : " + expectedHeader);
-	}
-
-	public static void validationOfSubHeader(WebElement element, String expectedSubHeader) {
-		String actualSubHeader = element.getText();
-		Assert.assertEquals(actualSubHeader, expectedSubHeader, "Sub Header doesn't match");
-		Loggers.logTheTest(element + " ---> Actual Sub Header : " + actualSubHeader + ". Expected SubHeader : "
-				+ expectedSubHeader);
-	}
-
+	
 	public static void selectDropdown(WebElement element, String value) {
 		try {
 			Select select = new Select(element);
@@ -202,5 +241,34 @@ public class CommonActions {
 			Assert.fail();
 		}
 	}
+	
+	
+	
+	// very very important interview question
+	public static String getSreenShot(String testName, WebDriver driver) {
+		TakesScreenshot ss = (TakesScreenshot) driver;
+		String path = System.getProperty("user.dir") + "/test-output/screenShots";
+		File folder = new File(path);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMddyyyy_hh.mm.ss");
+		String formattedDate = dateFormat.format(date);
+
+		File targetFile = new File(path + "/error_" + testName + "_" + formattedDate + ".png");
+		try {
+			File srcFile = ss.getScreenshotAs(OutputType.FILE);
+			Files.copy(srcFile, targetFile);
+			Loggers.logTheTest("Screenshot has been successfully capture at: \n" + targetFile.getAbsolutePath());
+		} catch (WebDriverException | IOException e) {
+			e.printStackTrace();
+			Loggers.logTheTest("Screenshot cannot be captured");
+		}
+		return targetFile.getAbsolutePath();
+	}
+
+
 
 }
