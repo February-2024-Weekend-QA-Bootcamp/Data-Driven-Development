@@ -74,6 +74,7 @@ public class BaseClass {
 		
 		// If we run from TestClass, which browser will run?
 		// Chrome, why? browser is absent in config.properties file, so it is taking from @Optional
+
 		
 		this.browserName = browserName;
 		initDriver();

@@ -19,7 +19,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.google.common.io.Files;
-
 import constants.Attribute;
 import reports.Loggers;
 
@@ -305,10 +304,7 @@ public class CommonActions {
 		}
 	}
 
-	
 
-	
-	
 
 	public boolean isPresent(By locator) {
 		List<WebElement> elements = driver.findElements(locator);
@@ -348,7 +344,5 @@ public class CommonActions {
 		}
 		return targetFile.getAbsolutePath();
 	}
-
-
-
+	
 }

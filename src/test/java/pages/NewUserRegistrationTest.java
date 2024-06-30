@@ -1,7 +1,6 @@
 package pages;
 
 import org.testng.annotations.Test;
-
 import baseUtil.BaseClass;
 
 public class NewUserRegistrationTest extends BaseClass {
@@ -38,22 +37,6 @@ public class NewUserRegistrationTest extends BaseClass {
 //		newUserRegistration.addressLine2Validation();
 		newUserRegistration.cityValidation();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 }
