@@ -1,6 +1,5 @@
 package pages;
 
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -106,7 +105,7 @@ public class ForgotUserId {
 		pause(3);
 		inputText(lastName, "Sharkar");
 		pause(3);
-		selectDropdownOnebyOne(birthMonth, birthMonthList); // high level, we can do same for birth date and year
+		selectElelementFromDropdownOnebyOne(birthMonth, birthMonthList); // high level, we can do same for birth date and year
 		pause(3);
 		selectDropdown(birthMonth, "June");
 		pause(3);
