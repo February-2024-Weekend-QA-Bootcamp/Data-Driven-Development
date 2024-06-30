@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -212,13 +213,13 @@ public class CommonActions {
 		}
 	}
 	
-	public static void selectDropdownOnebyOne(WebElement element, List<WebElement> elements) {
+	public static void selectElelementFromDropdownOnebyOne(WebElement element, List<WebElement> elements) {
 		try {
 			Select select = new Select(element);
 			for (int i = 1; i < elements.size(); i++) {
 				Loggers.logTheTest(elements.get(i).getText() + " is present in the dropdown");
 				select.selectByIndex(i);
-				pause(2);
+				pause(1);
 			}
 			Loggers.logTheTest("Total Element: " + (elements.size() - 1) + " is present in the dropdown");
 		} catch (NullPointerException | NoSuchElementException e) { // elements er exception add korte hobe
@@ -240,16 +241,6 @@ public class CommonActions {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
 	public static void verifyAttribute03(WebElement element, Attribute attribute, String expectedErrorMsg) {
 		String actual = getAttributeValue(element, attribute) + " is a required field.";
 		// element.getAttribute(attribute.toString());
@@ -257,12 +248,36 @@ public class CommonActions {
 				element + " ---> Actual Error Message is : " + actual + ". And Expected was: " + expectedErrorMsg);
 		Assert.assertEquals(actual, expectedErrorMsg);
 	}
-
 	
-
 	public static void verifyErrorMsgTopOfThePage(WebElement element, String expectedErrorMsg) {
 		verifyAttribute03(element, Attribute.INNER_TEXT, expectedErrorMsg); // "innerHTML"
 	}
+	
+	public static void clickElementThenTab(WebElement element) {
+		try {
+			element.sendKeys(Keys.TAB);
+			Loggers.logTheTest(element + "<---------> has been clicked, then click Tab Key");
+		} catch (NoSuchElementException | NullPointerException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
+			Assert.fail();
+		}
+	}
+
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+
+	
+
+	
 
 
 	
@@ -321,6 +336,12 @@ public class CommonActions {
 	
 	
 	// very very important interview question
+	public void failText() {
+		Loggers.logTheTest(getClass().getMethods()[0].getName() + " ---> has failed");
+		Assert.fail();
+	}
+
+	// very very important interview question
 	public static String getSreenShot(String testName, WebDriver driver) {
 		TakesScreenshot ss = (TakesScreenshot) driver;
 		String path = System.getProperty("user.dir") + "/test-output/screenShots";
@@ -343,6 +364,26 @@ public class CommonActions {
 			Loggers.logTheTest("Screenshot cannot be captured");
 		}
 		return targetFile.getAbsolutePath();
+	}
+
+	public static void switchToChildWindow(WebDriver driver, WebElement element) {
+		try {
+			clickElement(element);
+			Set<String> allWindowHandles = driver.getWindowHandles();
+			Loggers.logTheTest("Total Windows Opened: " + allWindowHandles.size());
+			String parent = (String) allWindowHandles.toArray()[0];
+			String child = (String) allWindowHandles.toArray()[1];
+			driver.switchTo().window(child);
+			Loggers.logTheTest(" The Window moved to --> " + child);
+		} catch (NoSuchElementException | NullPointerException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
+			Assert.fail();
+		}
+	}
+	
+	public static void verifyErrorMsg(WebElement element, String expectedErrorMsg) {
+		verifyAttribute02(element, Attribute.INNER_TEXT, expectedErrorMsg); //"innerHTML"
 	}
 	
 }

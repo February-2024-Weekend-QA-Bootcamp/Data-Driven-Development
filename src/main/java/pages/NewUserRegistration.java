@@ -99,7 +99,7 @@ public class NewUserRegistration {
 	@FindBy(xpath = "//select[@id='cms-newuser-nameSuffix']/option")
 	List <WebElement> suffixList;
 	
-	
+	// DOB
 	@FindBy(id = "cms-newuser-birthMonth")
 	WebElement birthMonth;
 	
@@ -240,13 +240,18 @@ public class NewUserRegistration {
 	@FindBy(id = "step2NextButton")
 	WebElement nextButtonStep2;
 	
-	
-	
 	@FindBy(id = "step2BackButton")
 	WebElement stepTwoBackButton;
+	
+	@FindBy(id = "cms-create-id-password")
+	WebElement stepThreeHeader;
+
+	@FindBy(xpath = "//p[contains(text(), 'Step 3')]")
+	WebElement stepThreeSubHeader;
+	
+	@FindBy(xpath = "(//p[contains(text(), 'All')])[2]")
+	WebElement stepThreeOtherHeader;
 		
-	
-	
 	public void landingOnhomePageAndDirectingToNewUserRegistration() {
 		elementDisplayed(logo);
 		verifyTitle(driver, "CMS Enterprise Portal");
@@ -361,12 +366,106 @@ public class NewUserRegistration {
 	}
 	
 	public void suffixValidation() {
-		selectDropdownOnebyOne(suffix, suffixList);
+		selectElelementFromDropdownOnebyOne(suffix, suffixList);
 		pause(3);
 		selectDropdown(suffix, "SR");
 		pause(3);
 	}
 	
+	public void birthMonthValidation() {	
+		// selectElelementFromDropdownOnebyOne(birthMonth, birthMonthList);
+		// below 2 line added as above line is taking more time
+		selectDropdown(birthMonth, "February");
+		pause(3);
+		pause(3);
+		selectDropdown(birthMonth, "Select Birth Month");
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthMonth, " Required field.");
+		pause(3);
+		verifyErrorMsgTopOfThePage(birthMonthErrorMsgTopOfThePage, "Birth Month is a required field.");
+		pause(3);
+		selectDropdown(birthMonth, "February");
+		pause(3);		
+				
+	}
+	
+	public void birthYearValidation() {	
+		// selectElelementFromDropdownOnebyOne(birthYear, birthYearList);
+		// avoiding for now above line to save time
+		// pause(3);
+		selectDropdown(birthYear, "1996");
+		pause(3);
+		selectDropdown(birthYear, "Select Birth Year");
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthYear, "Required field.");
+		pause(3);
+		verifyErrorMsgTopOfThePage(birthYearErrorMsgTopOfThePage, "Birth Year is a required field.");
+		pause(3);
+		selectDropdown(birthYear, "1996");
+		pause(3);		
+	}
+	
+	public void birthDateValidation() {	
+		// selectElelementFromDropdownOnebyOne(birthDate, birthDateList);
+		// avoiding for now above line to save time
+		// pause(3);
+		selectDropdown(birthDate, "29");
+		pause(3);
+		/*
+		selectDropdown(birthDate, "Select Birth Date");
+		pause(3);		
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthDate, " Required field.");
+		pause(3);
+		verifyErrorMsgTopOfThePage(birthDateErrorMsgTopOfThePage, "Birth Date is a required field.");
+		pause(3);
+		selectDropdown(birthDate, "29");
+		pause(3);
+		*/
+		
+	}
+	
+	
+	/*
+	public void dobValidation() {	
+		// selectElelementFromDropdownOnebyOne(birthMonth, birthMonthList);
+		// below 2 line added as above line is taking more time
+		selectDropdown(birthMonth, "February");
+		pause(3);
+		pause(3);
+		selectDropdown(birthMonth, "Select Birth Month");
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthMonth, " Required field.");
+		pause(3);
+		verifyErrorMsgTopOfThePage(birthMonthErrorMsgTopOfThePage, "Birth Month is a required field.");
+		pause(3);
+		selectDropdown(birthMonth, "February");
+		pause(3);		
+		// selectElelementFromDropdownOnebyOne(birthYear, birthYearList);
+		// avoiding for now above line to save time
+		// pause(3);
+		selectDropdown(birthYear, "1996");
+		pause(3);
+		selectDropdown(birthYear, "Select Birth Year");
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthYear, " Required field.");
+		pause(3);
+		verifyErrorMsgTopOfThePage(birthYearErrorMsgTopOfThePage, "Birth Year is a required field.");
+		pause(3);
+		selectDropdown(birthYear, "1996");
+		pause(3);
+		selectElelementFromDropdownOnebyOne(birthDate, birthDateList);
+		pause(3);
+		selectDropdown(birthDate, "Select Birth Date");
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthDate, " Required field.");
+		pause(3);
+		verifyErrorMsgTopOfThePage(birthDateErrorMsgTopOfThePage, "Birth Date is a required field.");
+		pause(3);
+		selectDropdown(birthDate, "29");
+		pause(3);
+		
+	}
+	*/
 	public void addressLine1Validation() {
 		clickElement(nonUsBasedAddress);
 		pause(5);
@@ -416,6 +515,236 @@ public class NewUserRegistration {
 		// Arnesén and Lindström: Both cities in Minnesota have diacritics
 		pause(3);
 	}
+	
+	public void stateValidation() {
+		selectDropdown(state, "New York"); // function is not same as Birth Month
+		pause(3);
+		selectDropdown(state, "Select State");
+		pause(3);
+		clickElementThenTab(state);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderState, " Required field.");
+		pause(3);
+		selectElelementFromDropdownOnebyOne(state, stateList);
+		pause(3);
+		selectDropdown(state, "New York");
+		pause(3);
+	}
+	
+	public void zipCodeValidation() {
+		verifyLengthOfTheFieldContent(zipCode, "5");	
+		inputTextThenClickTab(zipCode, "1002");
+		pause(3);
+		verifyErrorMsgUnderTheField(numericZipCodeErrorMsgUnderTheField, "Must be a valid numeric ZIP Code.");
+		clearTextFromTheField(zipCode);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderZipCode, "Required field.");
+		pause(3);
+		inputTextThenClickTab(zipCode, " > ^ ! # $ + / : ; = ? @");
+		verifyErrorMsgUnderTheField(numericZipCodeErrorMsgUnderTheField, "Must be a valid numeric ZIP Code.");
+		pause(3);
+		clearTextFromTheField(zipCode);
+		inputText(zipCode, "AaBcR");
+		verifyErrorMsgUnderTheField(numericZipCodeErrorMsgUnderTheField, "Must be a valid numeric ZIP Code.");
+		pause(3);
+		clearTextFromTheField(zipCode);
+		inputText(zipCode, "10019");
+		pause(3);
+	}
+	
+	public void zipCodePlus4Validation() {
+		verifyLengthOfTheFieldContent(zipCodeExt, "4");
+		inputTextThenClickTab(zipCodeExt, "100");
+		verifyErrorMsgUnderTheField(numericZipPlus4CodeErrorMsgUnderTheField, "Must be a valid numeric ZIP+4 Code.");		
+		clearTextFromTheField(zipCodeExt);
+		pause(3);
+		inputTextThenClickTab(zipCodeExt, " > ^ ! # $ + / : ; = ? @");
+		verifyErrorMsgUnderTheField(numericZipPlus4CodeErrorMsgUnderTheField, "Must be a valid numeric ZIP+4 Code.");
+		pause(3);
+		clearTextFromTheField(zipCodeExt);
+		inputText(zipCodeExt, "AdBc");
+		verifyErrorMsgUnderTheField(numericZipPlus4CodeErrorMsgUnderTheField, "Must be a valid numeric ZIP+4 Code.");
+		pause(3);
+		clearTextFromTheField(zipCodeExt);
+		inputText(zipCodeExt, "1001");
+		pause(3);
+	}
+	
+	public void emailValidation() {
+		verifyLengthOfTheFieldContent(email, "74");
+		inputTextThenClickTab(email, "^%&^%^%&");
+//		pause(5);
+//		verifyErrorMsgUnderTheField(email, "Must be a valid Email Address.");		// actual error message is nt received
+		pause(3);
+		clearTextFromTheField(email);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderEmail, "Required field.");
+		pause(3);
+//		inputText(email, "12345");
+//		verifyErrorMsgUnderTheField(email, "Must be a valid Email Address.");
+//		pause(3);
+//		clearTextFromTheField(email);
+		inputText(email, "tofael483@gmail.com");
+		pause(3);
+		// Need to find out the requirements for email configuration
+	}
+	
+	public void emailConfirmValidation() {
+		verifyLengthOfTheFieldContent(confirmEmail, "74");
+		inputTextThenClickTab(confirmEmail, "amtks483@gmail.com");
+		pause(3);
+		verifyErrorMsgUnderTheField(mismatchEmailAddressErrorMsgUnderTheField, "Must match Email Address values.");
+		pause(3);
+		clearTextFromTheField(confirmEmail);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderConfirmEmail, "Required field.");
+		pause(3);		
+		inputText(confirmEmail, "tofael483@gmail.com");
+		pause(3);
+	}
+	
+	public void phoneNumberValidation() {
+		verifyLengthOfTheFieldContent(phoneNumber, "12");
+		inputText(phoneNumber, "0929301602");
+		verifyErrorMsgUnderTheField(phoneNumberNotStartWithErrorMsgUnderTheField, "Phone Number must not start with a 1 or 0.");
+		pause(3);
+		clearTextFromTheField(phoneNumber);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderPhoneNumber, "Required field.");
+		pause(3);
+		inputText(phoneNumber, "1929301602");
+		verifyErrorMsgUnderTheField(phoneNumberNotStartWithErrorMsgUnderTheField, "Phone Number must not start with a 1 or 0.");
+		pause(3);
+		clearTextFromTheField(phoneNumber);
+		pause(3);
+		inputText(phoneNumber, "(3)*<>^9!#$+ ");
+		pause(3);
+		verifyErrorMsgUnderTheField(validPhoneNumberErrorMsgUnderTheField, "Must be a valid Phone Number.");
+		pause(3);
+		clearTextFromTheField(phoneNumber);
+		pause(3);
+		inputText(phoneNumber, "ahsuchbs");
+		pause(3);
+		verifyErrorMsgUnderTheField(validPhoneNumberErrorMsgUnderTheField, "Must be a valid Phone Number.");
+		pause(3);
+		clearTextFromTheField(phoneNumber);
+		pause(3);
+		inputText(phoneNumber, "9293016028");
+		pause(5);
+	}
+	
+	public void step2NextValidation() {
+		scrollIntoViewUsingJavascriptExecutor(driver, nextButtonStep2);
+		elementEnabled(nextButtonStep2);
+		verifyTextOfTheWebElement(nextButtonStep2, "Next");
+		pause(3);
+		clickElement(nextButtonStep2);
+		pause(5);
+	}
+	
+	public void clickOnNextButtonInStep2WithoutAnyData() {
+		pause(3);
+		scrollIntoViewUsingJavascriptExecutor(driver, nextButtonStep2);
+		pause(3);
+		clickElement(nextButtonStep2);
+		pause(5);
+		verifyErrorMsgTopOfThePage(firstNameErrorMsgTopOfThePage, "First Name is a required field.");
+		verifyErrorMsgTopOfThePage(lastNameErrorMsgTopOfThePage, "Last Name is a required field.");
+		verifyErrorMsgTopOfThePage(birthMonthErrorMsgTopOfThePage, "Birth Month is a required field.");
+		verifyErrorMsgTopOfThePage(birthDateErrorMsgTopOfThePage, "Birth Date is a required field.");
+		verifyErrorMsgTopOfThePage(birthYearErrorMsgTopOfThePage, "Birth Year is a required field.");
+		verifyErrorMsgTopOfThePage(homeAddressLine1ErrorMsgTopOfThePage, "Home Address Line1 is a required field.");
+		verifyErrorMsgTopOfThePage(cityErrorMsgTopOfThePage, "City is a required field.");
+		verifyErrorMsgTopOfThePage(stateErrorMsgTopOfThePage, "State is a required field.");
+		verifyErrorMsgTopOfThePage(zipCodeMsgTopOfThePage, "Zip Code is a required field.");
+		verifyErrorMsgTopOfThePage(emailAddressMsgTopOfThePage, "Email Address is a required field.");
+		verifyErrorMsgTopOfThePage(confirmEmailAddressMsgTopOfThePage, "Confirm Email Address is a required field.");
+		verifyErrorMsgTopOfThePage(phoneNumberMsgTopOfThePage, "Phone Number is a required field.");
+		pause(5);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderFirstName, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderLastName, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthMonth, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthDate, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderBirthYear, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderHomeAddressLine1, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderCity, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderState, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderZipCode, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderEmail, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderConfirmEmail, "Required field.");
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderPhoneNumber, "Required field.");
+		pause(3);
+	}
+	
+	public void untilClickOnNextButtonInStep2WithData() {
+		pause(3);
+		inputText(firstName, "Moha'mm-ad Md");
+		pause(3);
+		inputText(middleName, "To'fael Ka-bir");
+		pause(3);
+		inputText(lastName, "S'- harkar");
+		pause(5);
+		selectDropdown(suffix, "SR");
+		pause(3);
+		selectDropdown(birthMonth, "February");
+		pause(5);
+		selectDropdown(birthDate, "28");
+		pause(5);
+		selectDropdown(birthYear, "1975");
+		pause(5);
+		inputText(addressLine1, "6.1E 97th-s S_t, 66");
+		pause(3);
+		inputText(addressLine2, "A.pt 123123 E 1009th-s S_t, 66");
+		pause(3);
+		inputText(city, "Clark's Mountain"); // another example: Winston-Salem
+		pause(3);
+		selectDropdown(state, "New York");
+		pause(3);
+		inputText(zipCode, "10019");
+		pause(3);
+		inputText(zipCodeExt, "1001");
+		pause(3);
+		inputText(email, "tofael483@gmail.com");
+		pause(3);
+		inputText(confirmEmail, "tofael483@gmail.com");
+		pause(3);
+		inputText(phoneNumber, "9293016028");
+		pause(5);
+		scrollIntoViewUsingJavascriptExecutor(driver, nextButtonStep2);
+		elementEnabled(nextButtonStep2);
+		verifyTextOfTheWebElement(nextButtonStep2, "Next");
+		pause(3);
+		clickElement(nextButtonStep2);
+		pause(5);
+	}
+	
+	public void stepThreeTitleAndHeaderValidation() {
+		verifyTitle(driver, "CMS Enterprise Portal - New User Registration");
+		verifyCurrentUrl(driver, "https://portal.cms.gov/portal/newuserregistration");
+		validationOfHeader(stepThreeHeader, "Step #3: Create User ID, Password & Security Question/Answer");
+		validationOfSubHeader(stepThreeSubHeader, "Step 3 of 3 - Please create User ID and Password. Select a Security Question and provide Answer.");
+		validationOfOtherHeader(stepThreeOtherHeader, "All fields are required unless marked (optional).");
+		pause(3);
+	}
+	
+	public void stepTwoClickOnBackButtonDirectToPreviousPage() {
+		pause(5);
+		scrollIntoViewUsingJavascriptExecutor(driver, stepTwoBackButton);
+		elementEnabled(stepTwoBackButton);
+		verifyTextOfTheWebElement(stepTwoBackButton, "Back");
+		pause(3);
+		clickElement(stepTwoBackButton);
+		pause(3);
+		verifyCurrentUrl(driver, "https://portal.cms.gov/portal/newuserregistration"); // no need
+		verifyTitle(driver, "CMS Enterprise Portal - New User Registration"); // no need
+		validationOfHeader(stepOneHeader, "Step #1: Select Your Application");
+		validationOfSubHeader(stepOneSubHeader, "Step 1 of 3 - Select your application from the dropdown. You will then need to agree to the terms & conditions.");
+		pause(3);
+	}
+	
+	
+	
+
 	
 	
 	

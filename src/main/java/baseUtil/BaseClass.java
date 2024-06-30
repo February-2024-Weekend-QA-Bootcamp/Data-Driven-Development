@@ -66,18 +66,18 @@ public class BaseClass {
 	@Parameters("browser")
 	@BeforeMethod
 	public void setUp(@Optional(CHROME) String browserName) {
-		// If there is empty value or wrong value in testng.xml suite, then browser will not match and get the default one
-		// WebdriverManager is instantiating the ChromeDriver
-				
 		// If any reason, in our test suit, parameter is absent, 
 		// then @Optional(CHROME) will work
 		
+		// spelling mistake in testng.xml suite, then browser will not match and get the default one
+		// WebdriverManager is instantiating the ChromeDriver
+			
 		// If we run from TestClass, which browser will run?
 		// Chrome, why? browser is absent in config.properties file, so it is taking from @Optional
 
 		
-		this.browserName = browserName;
-		initDriver();
+		// this.browserName = browserName;
+		initDriver(browserName);
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.get(configuration.getProperties(URL));
@@ -86,11 +86,11 @@ public class BaseClass {
 		long explicitlyWait = Long.parseLong(configuration.getProperties(EXPLICITLY_WAIT));
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(pageLoadWait));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWait));
-		// wait = new WebDriverWait(driver, Duration.ofSeconds(explicitlyWait));
+		wait = new WebDriverWait(driver, Duration.ofSeconds(explicitlyWait));
 		initClass();
 	}
 
-	public void initDriver() {
+	public void initDriver(String browserName) {
 		// String browserName = configuration.getProperties(BROWSER);
 		// we remove browser from config.properties file
 		// above line will be deleted and line 34 added
@@ -119,7 +119,7 @@ public class BaseClass {
 	}
 
 	public void initClass() {
-		homePage = new HomePage(driver);
+		homePage = new HomePage(driver, wait);
 		newUserRegistration = new NewUserRegistration(driver);
 		forgotUserId = new ForgotUserId(driver);
 	}
