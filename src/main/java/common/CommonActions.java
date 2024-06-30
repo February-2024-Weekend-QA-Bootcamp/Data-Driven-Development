@@ -19,7 +19,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import com.google.common.io.Files;
-
+import constants.Attribute;
 import reports.Loggers;
 
 public class CommonActions {
@@ -115,6 +115,21 @@ public class CommonActions {
 		}
 	}
 
+	public static void clickUsingJavascriptExecutor(WebDriver driver, WebElement element) {
+		// JavascriptExecutor js = (JavascriptExecutor)driver; // instead of writing
+		// this 'js', we can write below one
+		((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
+		Loggers.logTheTest("Javascript Executor CLICKING ... on element ---> " + element);
+	}	
+	
+	public static void scrollIntoViewUsingJavascriptExecutor(WebDriver driver, WebElement element) {
+		// JavascriptExecutor js = (JavascriptExecutor)driver; // instead of writing
+		// this 'js', we can write below one
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", element);
+		Loggers.logTheTest("Javascript Executor SCROLLING into view the element ---> " + element);
+	}	
+	
+	// we will use it for sending value by JavascriptExecutor
 	public static void usingJavascriptExecutor(WebDriver driver, String script, WebElement element) {
 		// JavascriptExecutor js = (JavascriptExecutor)driver; // instead of writing
 		// this 'js', we can write below one
@@ -141,20 +156,51 @@ public class CommonActions {
 		Loggers.logTheTest(element + " ---> Actual Other Header : " + actualOtherHeader + ". Expected Other Header : "
 				+ expectedOtherHeader);
 	}
-
-	
-
-	
-
-	
-
 	
 	
+	// Attribute is coming from package constants, we will check the outcome later
+	public static String getAttributeValue(WebElement element, Attribute attribute) {
+		String atr = attribute.getTheAttribute();
+		 return element.getAttribute(atr);
+	}
 
+	public static void verifyAttribute01(WebElement element, Attribute attribute, String expectedValue) {
+		String actualValue = getAttributeValue(element, attribute); // This method from above
+		// element.getAttribute(attribute.toString());
+		Loggers.logTheTest(element + " ---> We can Enter : " + actualValue
+				+ " Character in the field which was similar with the Expected as: " + expectedValue);
+		Assert.assertEquals(actualValue, expectedValue);
+	}
+
+	public static void verifyLengthOfTheFieldContent(WebElement element, String expected) {
+		verifyAttribute01(element, Attribute.MAX_LENGTH, expected);
+	}
 	
-
+	public static void inputTextThenClickTab(WebElement element, String input) {
+		try {
+			element.sendKeys(input, Keys.TAB);
+			Loggers.logTheTest(
+					input + " <-----> has been put into <-----> " + element + " and then clicked by Tab Key");
+		} catch (NoSuchElementException | NullPointerException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
+			Assert.fail();
+		}
+	}
 	
-
+	// Loggers is changed only
+	public static void verifyAttribute02(WebElement element, Attribute attribute, String expectedErrorMsg) {
+		String actual = getAttributeValue(element, attribute);
+		// element.getAttribute(attribute.toString());
+		Loggers.logTheTest(
+				element + " ---> Actual Error Message is : " + actual + ". And Expected was: " + expectedErrorMsg);
+		Assert.assertEquals(actual, expectedErrorMsg);
+	}
+	
+	public static void verifyErrorMsgUnderTheField(WebElement element, String expectedErrorMsg) {
+		verifyAttribute02(element, Attribute.INNER_TEXT, expectedErrorMsg); // "innerHTML"
+	}
+	
 	public static void clearTextFromTheField(WebElement element) {
 		try {
 			element.clear();
@@ -165,6 +211,74 @@ public class CommonActions {
 			Assert.fail();
 		}
 	}
+	
+	public static void selectDropdownOnebyOne(WebElement element, List<WebElement> elements) {
+		try {
+			Select select = new Select(element);
+			for (int i = 1; i < elements.size(); i++) {
+				Loggers.logTheTest(elements.get(i).getText() + " is present in the dropdown");
+				select.selectByIndex(i);
+				pause(2);
+			}
+			Loggers.logTheTest("Total Element: " + (elements.size() - 1) + " is present in the dropdown");
+		} catch (NullPointerException | NoSuchElementException e) { // elements er exception add korte hobe
+			e.printStackTrace();
+			Loggers.logTheTest(element + " : This element Not Found");
+			Assert.fail();
+		}
+	}
+	
+	public static void selectDropdown(WebElement element, String value) {
+		try {
+			Select select = new Select(element);
+			select.selectByVisibleText(value);
+			Loggers.logTheTest(value + " has been selected from the dropdown of ---> " + element);
+		} catch (NullPointerException | NoSuchElementException e) {
+			e.printStackTrace();
+			Loggers.logTheTest(element + " : This element Not Found");
+			Assert.fail();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	public static void verifyAttribute03(WebElement element, Attribute attribute, String expectedErrorMsg) {
+		String actual = getAttributeValue(element, attribute) + " is a required field.";
+		// element.getAttribute(attribute.toString());
+		Loggers.logTheTest(
+				element + " ---> Actual Error Message is : " + actual + ". And Expected was: " + expectedErrorMsg);
+		Assert.assertEquals(actual, expectedErrorMsg);
+	}
+
+	
+
+	public static void verifyErrorMsgTopOfThePage(WebElement element, String expectedErrorMsg) {
+		verifyAttribute03(element, Attribute.INNER_TEXT, expectedErrorMsg); // "innerHTML"
+	}
+
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+
+	
+
+	
 
 	public static void inputTextThenClickEnter(WebElement element, String input) {
 		try {
@@ -190,30 +304,7 @@ public class CommonActions {
 		}
 	}
 
-	public static void inputTextThenClickTab(WebElement element, String input) {
-		try {
-			element.sendKeys(input, Keys.TAB);
-			Loggers.logTheTest(
-					input + " <-----> has been put into <-----> " + element + " and then clicked by Enter Key");
-		} catch (NoSuchElementException | NullPointerException e) {
-			e.printStackTrace();
-			Loggers.logTheTest(element + "<----------> has not been found\n" + e.getMessage());
-			Assert.fail();
-		}
-	}
 
-	
-	public static void selectDropdown(WebElement element, String value) {
-		try {
-			Select select = new Select(element);
-			select.selectByVisibleText(value);
-			Loggers.logTheTest(value + " has been selected from the dropdown of ---> " + element);
-		} catch (NullPointerException | NoSuchElementException e) {
-			e.printStackTrace();
-			Loggers.logTheTest(element + " : This element Not Found");
-			Assert.fail();
-		}
-	}
 
 	public boolean isPresent(By locator) {
 		List<WebElement> elements = driver.findElements(locator);
@@ -226,21 +317,6 @@ public class CommonActions {
 		}
 	}
 
-	public static void selectDropdownOnebyOne(WebElement element, List<WebElement> elements) {
-		try {
-			Select select = new Select(element);
-			for (int i = 1; i < elements.size(); i++) {
-				Loggers.logTheTest(elements.get(i).getText() + " is present in the dropdown");
-				select.selectByIndex(i);
-				pause(2);
-			}
-			Loggers.logTheTest("Total Element: " + (elements.size() - 1) + " is present in the dropdown");
-		} catch (NullPointerException | NoSuchElementException e) { // elements er exception add korte hobe
-			e.printStackTrace();
-			Loggers.logTheTest(element + " : This element Not Found");
-			Assert.fail();
-		}
-	}
 	
 	
 	
@@ -268,7 +344,5 @@ public class CommonActions {
 		}
 		return targetFile.getAbsolutePath();
 	}
-
-
-
+	
 }

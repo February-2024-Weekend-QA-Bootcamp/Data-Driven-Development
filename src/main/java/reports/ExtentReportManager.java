@@ -41,6 +41,3 @@ public class ExtentReportManager {
  4) Update Loggers class
  5) Update in Base class 
 */
-
-
-

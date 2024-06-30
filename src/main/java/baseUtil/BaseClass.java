@@ -70,10 +70,11 @@ public class BaseClass {
 		// WebdriverManager is instantiating the ChromeDriver
 				
 		// If any reason, in our test suit, parameter is absent, 
-		// then @Optional(EDGE) will work
+		// then @Optional(CHROME) will work
 		
 		// If we run from TestClass, which browser will run?
-		// Edge, why? browser is absent in config.properties file, so it is taking from @Optional
+		// Chrome, why? browser is absent in config.properties file, so it is taking from @Optional
+
 		
 		this.browserName = browserName;
 		initDriver();

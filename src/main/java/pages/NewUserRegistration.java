@@ -59,22 +59,29 @@ public class NewUserRegistration {
 	
 	@FindBy(xpath = "(//p[contains(text(), 'All f')])[1]")
 	WebElement stepTwoOtherHeader;
-
+	
+	@FindBy(xpath = "(//a[contains(text(), 'Cancel')])[2]")
+	WebElement stepTwoCancel;	
+	
+    
+	// First Name
 	@FindBy(id = "cms-newuser-firstName")
 	WebElement firstName;
+	
+	@FindBy(xpath = "//span[text()='Must be alphabetic characters.']")
+	WebElement alphabeticCharactersErrorMsgUnderTheField;
 	
 	@FindBy(xpath = "//span[contains(text(), 'Required field.')]")
 	WebElement requiredFieldErrorMsgUnderFirstName;
 	
 	@FindBy(xpath = "//a[contains(text(), 'First Name')]")
 	WebElement firstNameErrorMsgTopOfThePage;
-
-	@FindBy(xpath = "//span[text()='Must be alphabetic characters.']")
-	WebElement alphabeticCharactersErrorMsgUnderTheField;
-
+	
+	// Middle Name
 	@FindBy(id = "cms-newuser-middleName")
 	WebElement middleName;
 
+	// Last Name
 	@FindBy(id = "cms-newuser-lastName")
 	WebElement lastName;
 	
@@ -84,11 +91,14 @@ public class NewUserRegistration {
 	@FindBy(xpath = "//a[contains(text(), 'Last Name')]")
 	WebElement lastNameErrorMsgTopOfThePage;
 
+	
+	// Suffix
 	@FindBy(id = "cms-newuser-nameSuffix")
 	WebElement suffix;
 	
 	@FindBy(xpath = "//select[@id='cms-newuser-nameSuffix']/option")
 	List <WebElement> suffixList;
+	
 	
 	@FindBy(id = "cms-newuser-birthMonth")
 	WebElement birthMonth;
@@ -126,12 +136,14 @@ public class NewUserRegistration {
 	@FindBy(xpath = "//select[@id='cms-newuser-birthYear']/option")
 	List<WebElement> birthYearList;
 	
+	// US Based Address
 	@FindBy(xpath = "//label[@class='check-radio']//parent::li[@class='cms-radio-item']")
 	WebElement usBasedAddress;
 
 	@FindBy(xpath = "//label[@class='check-radio']//parent::li[@class='cms-radio-item2']")
 	WebElement nonUsBasedAddress;
 
+	// Address Line 1 and 2
 	@FindBy(id = "cms-newuser-homeAddressLine1")
 	WebElement addressLine1;
 	
@@ -146,7 +158,8 @@ public class NewUserRegistration {
 
 	@FindBy(id = "cms-newuser-usAddress2")
 	WebElement addressLine2;
-
+	
+	// City
 	@FindBy(id = "cms-newuser-usCity")
 	WebElement city;
 	
@@ -156,6 +169,7 @@ public class NewUserRegistration {
 	@FindBy(xpath = "//a[contains(text(), 'City')]")
 	WebElement cityErrorMsgTopOfThePage;
 
+	// State
 	@FindBy(id = "cms-newuser-usState")
 	WebElement state;
 	
@@ -168,6 +182,7 @@ public class NewUserRegistration {
 	@FindBy(xpath = "//select[@id='cms-newuser-usState']/option")
 	List<WebElement> stateList;
 
+	// Zip Code
 	@FindBy(name = "cms-newuser-zipcode")
 	WebElement zipCode;
 	
@@ -225,8 +240,7 @@ public class NewUserRegistration {
 	@FindBy(id = "step2NextButton")
 	WebElement nextButtonStep2;
 	
-	@FindBy(xpath = "(//a[contains(text(), 'Cancel')])[2]")
-	WebElement stepTwoCancel;
+	
 	
 	@FindBy(id = "step2BackButton")
 	WebElement stepTwoBackButton;
@@ -247,9 +261,9 @@ public class NewUserRegistration {
 		inputTextThenClickEnter(textSearch, "BCRS Web");
 		elementEnabled(stepOneCancel);
 		verifyTextOfTheWebElement(stepOneCancel, "Cancel");
-		usingJavascriptExecutor(driver, "arguments[0].scrollIntoView(true)", stepOneCancel);
+		scrollIntoViewUsingJavascriptExecutor(driver, stepOneCancel);
 		pause(3);
-		usingJavascriptExecutor(driver, "arguments[0].click()", stepOneCancel);
+		clickUsingJavascriptExecutor(driver, stepOneCancel);
 		//clickElement(stepOneCancel);
 		pause(3);
 		verifyCurrentUrl(driver, "https://portal.cms.gov/portal/");
@@ -280,6 +294,126 @@ public class NewUserRegistration {
 		validationOfHeader(stepTwoHeader, "Step #2: Register Your Information");
 		validationOfSubHeader(stepTwoSubHeader, "Step 2 of 3 - Please enter your personal and contact information.");
 		validationOfOtherHeader(stepTwoOtherHeader, "All fields are required unless marked (optional).");
+		pause(3);
+	}
+	
+	public void stepTwoClickOnCancelButtonDirectToHomePage() {
+		scrollIntoViewUsingJavascriptExecutor(driver, stepTwoCancel);
+		elementEnabled(stepTwoCancel);
+		verifyTextOfTheWebElement(stepTwoCancel, "Cancel");
+		pause(3);
+		clickElement(stepTwoCancel);
+		// waitThenClick(driver, stepTwoCancel);
+		pause(3);	
+		verifyCurrentUrl(driver, "https://portal.cms.gov/portal/");
+		verifyTitle(driver, "CMS Enterprise Portal");
+		pause(3);
+	}
+	
+	public void firstNameValidation() {
+		verifyLengthOfTheFieldContent(firstName, "20");
+		inputTextThenClickTab(firstName, "%^&$^%*&#^$&^*%");
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(firstName);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderFirstName, "Required field.");
+		pause(3);
+		inputText(firstName, "56345378");
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(firstName);
+		pause(3);
+		inputText(firstName, "M oha'm-mad Mohammad");
+		pause(3);
+	}
+	
+	public void middleNameValidation() {
+		verifyLengthOfTheFieldContent(middleName, "20");
+		inputText(middleName, "% & \\\" ( )");
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(middleName);
+		pause(3);
+		inputText(middleName, "6573684765");
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(middleName);
+		pause(3);
+		inputText(middleName, "To'fael Ka-bi rrr'-r");
+		pause(3);
+	}
+	
+	public void lastNameValidation() {
+		verifyLengthOfTheFieldContent(lastName, "25");
+		inputTextThenClickTab(lastName, "% & \\\" ( )");
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(lastName);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderLastName, "Required field.");
+		pause(3);
+		inputText(lastName, "6573684765");
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(lastName);
+		pause(3);
+		inputText(lastName, "S'- harkarr Sh''a--rka rr");
+		pause(5);
+	}
+	
+	public void suffixValidation() {
+		selectDropdownOnebyOne(suffix, suffixList);
+		pause(3);
+		selectDropdown(suffix, "SR");
+		pause(3);
+	}
+	
+	public void addressLine1Validation() {
+		clickElement(nonUsBasedAddress);
+		pause(5);
+		clickElement(usBasedAddress);
+		// start of addressLine 1 validation
+		verifyLengthOfTheFieldContent(addressLine1, "60");
+		inputTextThenClickTab(addressLine1, " * < > ^ ! # $ + / : ; = ? @ [ ] ");
+		verifyErrorMsgUnderTheField(alphanumericCharactersErrorMsgUnderTheField, "Must be alphanumeric characters.");
+		pause(3); // is not used in the industry, this is used when you scripting the test cases,
+					// we will comment out all and run, if failed, then we will use web driver wait
+		clearTextFromTheField(addressLine1);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderHomeAddressLine1, "Required field.");
+		pause(3);
+		inputText(addressLine1, "6.1E 97th-s S_t, 66"); // **NOTE: Special characters allowed are: (Space) ' ‐ , . _
+		pause(3);
+	}
+	
+	public void addressLine2Validation() {
+		verifyLengthOfTheFieldContent(addressLine2, "64");
+		inputTextThenClickTab(addressLine2, " * < > ^ ! # $ + / : ; = ? @ [ ] ");
+		verifyErrorMsgUnderTheField(alphanumericCharactersErrorMsgUnderTheField, "Must be alphanumeric characters.");
+		pause(3); 
+		clearTextFromTheField(addressLine2);
+		pause(3);
+		inputText(addressLine2, "A.pt 123123 E 1009th-s S_t, 66");
+		pause(3);
+	}
+	
+	public void cityValidation() {
+		verifyLengthOfTheFieldContent(city, "30");
+		pause(3);
+		inputTextThenClickTab(city, " > ^ ! # $ + / : ; = ? @");		
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(city);
+		pause(3);
+		verifyErrorMsgUnderTheField(requiredFieldErrorMsgUnderCity, "Required field.");
+		pause(3);
+		inputTextThenClickTab(city, "64783city");
+		pause(3);
+		verifyErrorMsgUnderTheField(alphabeticCharactersErrorMsgUnderTheField, "Must be alphabetic characters.");
+		pause(3);
+		clearTextFromTheField(city);
+		inputText(city, "Lindström");  // Real time bug of the Application
+		// another example: Winston-Salem, Clark's Mountain
+		// Arnesén and Lindström: Both cities in Minnesota have diacritics
 		pause(3);
 	}
 	
