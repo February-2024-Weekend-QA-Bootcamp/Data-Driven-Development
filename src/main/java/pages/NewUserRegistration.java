@@ -710,17 +710,12 @@ public class NewUserRegistration {
 		pause(3);
 		inputText(phoneNumber, "9293016028");
 		pause(5);
-		scrollIntoViewUsingJavascriptExecutor(driver, nextButtonStep2);
-		elementEnabled(nextButtonStep2);
-		verifyTextOfTheWebElement(nextButtonStep2, "Next");
-		pause(3);
-		clickElement(nextButtonStep2);
-		pause(5);
 	}
 	
 	public void stepThreeTitleAndHeaderValidation() {
 		verifyTitle(driver, "CMS Enterprise Portal - New User Registration");
 		verifyCurrentUrl(driver, "https://portal.cms.gov/portal/newuserregistration");
+		pause(3);
 		validationOfHeader(stepThreeHeader, "Step #3: Create User ID, Password & Security Question/Answer");
 		validationOfSubHeader(stepThreeSubHeader, "Step 3 of 3 - Please create User ID and Password. Select a Security Question and provide Answer.");
 		validationOfOtherHeader(stepThreeOtherHeader, "All fields are required unless marked (optional).");
