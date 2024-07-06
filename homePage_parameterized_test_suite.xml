@@ -3,8 +3,8 @@
 <suite name="Suite">
 	<parameter name="browser" value="firefox" />
 	<test thread-count="5" name="Test">
-		<parameter name="userIdFieldText" value="DecemberTDDFramework"></parameter>
-		<parameter name="passwordFieldText" value="Enthrall@2023"></parameter>
+		<parameter name="userIdFieldText" value="FebruaryTDDFramework"></parameter>
+		<parameter name="passwordFieldText" value="Enthrall@2024"></parameter>
 		<parameter name="errorMsg" value="Invalid combination of User ID and Password. Enter valid User ID and Password and try again."></parameter>
 		<classes>
 			<class name="pages.HomePageParameterizedTest" />

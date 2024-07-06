@@ -70,14 +70,15 @@ public class HomePage {
 	}
 	
 	// below methods Used in HomePageParameterizedTest Class	
-	public void inputUserIdField(String userIdFieldText) {
+	public void inputTextInUserIdField(String userIdFieldText) {
 		inputText(userId, userIdFieldText);
 	}
 	
-	public void inputPasswordField(String passwordFieldText) {
+	public void inputTextInPasswordField(String passwordFieldText) {
 		inputText(password, passwordFieldText);
 	}
 	
+	// CommonMethods are used
 	public void clickCheckBox() {
 		pause(3);
 		clickElement(checkBox);

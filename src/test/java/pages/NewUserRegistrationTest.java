@@ -38,6 +38,7 @@ public class NewUserRegistrationTest extends BaseClass {
 		newUserRegistration.clickOnNextButtonInStep2WithoutAnyData();		
 	}
 	
+	// Happy Path
 	@Test
 	public void clickOnNextButtonInStep2WithDataTest() {
 		newUserRegistration.landingOnhomePageAndDirectingToNewUserRegistration();
