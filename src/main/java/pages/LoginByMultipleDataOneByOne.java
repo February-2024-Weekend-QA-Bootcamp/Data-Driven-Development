@@ -89,5 +89,6 @@ public class LoginByMultipleDataOneByOne {
 		validationOfHeader(multiFactorAuthentication, "Multi-factor Authentication");
 		pause(3);
 	}
+	//
 
 }
