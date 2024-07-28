@@ -13,6 +13,7 @@ import reports.Loggers;
 
 
 public class CommonWaits {
+	
 	static WebDriver driver;
 	static WebDriverWait wait;
 	

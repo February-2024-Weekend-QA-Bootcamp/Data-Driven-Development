@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>7.7.1</version>
+			<version>7.8.0</version>
 		</dependency>
 
 		<!-- Webdriver manager is used as an alternative for physical driver as chromedriver, geckodriver etc -->
@@ -51,6 +51,19 @@
 			<version>5.1.1</version>
 		</dependency>
 
+		<!-- This is a JDBC connector, Connect our framework with PostgreSQL -->
+		<!-- pgadmin is a tool, postgresql is a structural database-->
+		<!-- for Oracle sql developer below one-->
+		<!-- https://mvnrepository.com/artifact/ojdbc/ojdbc-->
+		<!-- for MySQL below one-->
+		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j-->
+		<!-- for MongoDB below one-->
+		<!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync-->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.7.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>

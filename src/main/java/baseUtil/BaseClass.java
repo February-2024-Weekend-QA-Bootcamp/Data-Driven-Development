@@ -25,6 +25,7 @@ import constants.Profile;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.ForgotUserId;
 import pages.HomePage;
+import pages.LoginByMultipleDataOneByOne;
 import pages.NewUserRegistration;
 import reports.ExtentReportManager;
 import reports.TestManager;
@@ -41,6 +42,7 @@ public class BaseClass {
 	ExtentReports extentReports;
 	String browserName;
 	ExtentTest extentTest;
+	public LoginByMultipleDataOneByOne lmd;
 
 	// newly added
 	@BeforeSuite
@@ -122,6 +124,7 @@ public class BaseClass {
 		homePage = new HomePage(driver, wait);
 		newUserRegistration = new NewUserRegistration(driver);
 		forgotUserId = new ForgotUserId(driver);
+		lmd = new LoginByMultipleDataOneByOne(driver);
 	}
 
 	@AfterMethod
