@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import baseUtil.BaseClass;
 
-public class LoginBySingleDataTest extends BaseClass {
+public class LoginTest extends BaseClass {
 	@Test
 	public void loginTest() {
 		lmd.validateLogoAndTitle();

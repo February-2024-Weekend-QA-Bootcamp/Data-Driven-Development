@@ -19,7 +19,7 @@ public class DBConnectionTest {
 	String insertData = "insert into february2024 (userId, password)values"
 									+ "('Narima.tushty@gmail.com', 'Login@123456789'),"
 									+ "('shampa.afroz82@gmail.com', 'ShumuLove$2024&'),"
-									+ "('Fatematuz.qa@gmail.com', 'Silia19??abcsilia');"; 
+									+ "('S_1999', 'Silia19??abcsilia');"; 
 	
 	
 	String runTheQuery = "select * from february2024";
