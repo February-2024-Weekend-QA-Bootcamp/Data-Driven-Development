@@ -7,13 +7,13 @@ import baseUtil.BaseClass;
 public class LoginTest extends BaseClass {
 	@Test
 	public void loginTest() {
-		lmd.validateLogoAndTitle();
-		lmd.validateLogInModal();
-		lmd.validateUserId("Narima.tushty@gmail.com");
-		lmd.validatePassword("Login@123456789");
-		lmd.validateCheckBox();
-		lmd.validateLogin();
-		lmd.landingOnMultiFactorAuthentication();
+		login.validateLogoAndTitle();
+		login.validateLogInModal();
+		login.validateUserId("Narima.tushty@gmail.com");
+		login.validatePassword("Login@123456789");
+		login.validateCheckBox();
+		login.validateLogin();
+		login.landingOnMultiFactorAuthentication();
 	}
 
 }

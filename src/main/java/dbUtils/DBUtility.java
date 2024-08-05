@@ -19,12 +19,19 @@ public class DBUtility {
 		getConnection();
 	}
 	
+	/*
+	 We comment Loggers because TestManager was Null during execution.
+	 We don't need Logger here, because TestManager is related to extent report
+	 and this is very unimportant information about connection happened or table created or executed inside extent report
+	 */
+	
+	
 	private Connection getConnection() {
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/employees_db", "postgres", "hr");
 			//Loggers.logTheTest("Database Connected ...");
 		} catch (SQLException e) {
-			Loggers.logTheTest("Database Connected cannot be established");
+			// Loggers.logTheTest("Database Connected cannot be established");
 			e.printStackTrace();
 		}
 		return connection;
@@ -36,7 +43,7 @@ public class DBUtility {
 			statement.execute(query);
 			//Loggers.logTheTest("Query executed ...");
 		}catch (SQLException e) {
-			Loggers.logTheTest("Statement Cannot be Created");
+			// Loggers.logTheTest("Statement Cannot be Created");
 		}
 	}
 	
@@ -45,7 +52,7 @@ public class DBUtility {
 			resultSet = statement.getResultSet();
 			//Loggers.logTheTest("ResultSet Generated");
 		} catch (SQLException e) {
-			Loggers.logTheTest("ResultSet cannot be genrated");
+			// Loggers.logTheTest("ResultSet cannot be genrated");
 		}
 		return resultSet;
 	}
@@ -58,7 +65,7 @@ public class DBUtility {
 			resultSetMetaData = resultSet.getMetaData();
 			//Loggers.logTheTest("ResultSetMetaData Generated");
 		}catch (SQLException e) {
-			Loggers.logTheTest("ResultSetMetaData cannot be genrated");
+			// Loggers.logTheTest("ResultSetMetaData cannot be genrated");
 		}
 		return resultSetMetaData;
 	}
@@ -68,7 +75,7 @@ public class DBUtility {
 			connection.close();
 			//Loggers.logTheTest("Connection Terminated");
 		} catch (SQLException e) {
-			Loggers.logTheTest("Connection is not Terminated");
+			// Loggers.logTheTest("Connection is not Terminated");
 			e.printStackTrace();
 		}
 	}

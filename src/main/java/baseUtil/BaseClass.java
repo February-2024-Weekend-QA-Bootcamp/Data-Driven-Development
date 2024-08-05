@@ -42,7 +42,7 @@ public class BaseClass {
 	ExtentReports extentReports;
 	String browserName;
 	ExtentTest extentTest;
-	public Login lmd;
+	public Login login;
 
 	// newly added
 	@BeforeSuite
@@ -124,7 +124,7 @@ public class BaseClass {
 		homePage = new HomePage(driver, wait);
 		newUserRegistration = new NewUserRegistration(driver);
 		forgotUserId = new ForgotUserId(driver);
-		lmd = new Login(driver);
+		login = new Login(driver);
 	}
 
 	@AfterMethod

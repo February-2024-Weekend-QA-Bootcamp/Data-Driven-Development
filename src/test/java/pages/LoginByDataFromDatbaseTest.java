@@ -11,9 +11,11 @@ import dataTestObject.User;
 import queries.UserQueries;
 
 
-public class LoginByMultipleDataTest extends BaseClass {
+public class LoginByDataFromDatbaseTest extends BaseClass {
 	
 	@DataProvider (name = "users_obj")
+	// Why we use Object?
+	// When it is not defined like String, Integer or mixed data present
 	public Object[][] getUserObjects(){
 		List<User>list = UserQueries.getUsers();		
 		Object[][]objects = new Object[list.size()][];
@@ -23,21 +25,23 @@ public class LoginByMultipleDataTest extends BaseClass {
 		return objects;		
 	}
 	
+	// alternative of Object from above is Iterator type
 	@DataProvider(name = "users_iterator")
 	public Iterator<User> getStudentIterator(){
 		List<User>list = UserQueries.getUsers();
 		return list.iterator();
 	}
 	
-	@Test (dataProvider = "users_iterator")
+	// We can also use "users_iterator"
+	@Test (dataProvider = "users_obj")
 	public void loginTest(User user) {
-		lmd.validateLogoAndTitle();
-		lmd.validateLogInModal();
-		lmd.validateUserId(user.getUserId());
-		lmd.validatePassword(user.getPassword());
-		lmd.validateCheckBox();
-		lmd.validateLogin();
-		lmd.landingOnMultiFactorAuthentication();
+		login.validateLogoAndTitle();
+		login.validateLogInModal();
+		login.validateUserId(user.getUserId());
+		login.validatePassword(user.getPassword());
+		login.validateCheckBox();
+		login.validateLogin();
+		login.landingOnMultiFactorAuthentication();
 	}
 
 }
