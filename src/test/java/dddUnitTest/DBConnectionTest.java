@@ -1,4 +1,4 @@
-package dddUnit;
+package dddUnitTest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +9,7 @@ import java.sql.Statement;
 import org.testng.annotations.Test;
 
 // This is an Unit test to check the connectivity is working or not
+// This class is not connected to our framework
 public class DBConnectionTest {
 	
 	String createTable = "create table february2024 ("
@@ -19,7 +20,7 @@ public class DBConnectionTest {
 	String insertData = "insert into february2024 (userId, password)values"
 									+ "('Narima.tushty@gmail.com', 'Login@123456789'),"
 									+ "('shampa.afroz82@gmail.com', 'ShumuLove$2024&'),"
-									+ "('Fatematuz.qa@gmail.com', 'Silia19??abcsilia');"; 
+									+ "('S_1999', 'Silia19??abcsilia');"; 
 	
 	
 	String runTheQuery = "select * from february2024";
@@ -46,6 +47,8 @@ public class DBConnectionTest {
 		
 		// createStatement() return Statement object
 		Statement statement = connection.createStatement();
+		statement.execute(createTable);
+		statement.execute(insertData);
 		statement.execute(runTheQuery);
 		
 		// after execution, the result we got can be returned by statement object. 

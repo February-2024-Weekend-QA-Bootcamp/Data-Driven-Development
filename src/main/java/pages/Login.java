@@ -17,10 +17,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginByMultipleDataOneByOne {
+public class Login {
 	WebDriver driver;
 
-	public LoginByMultipleDataOneByOne(WebDriver driver) {
+	public Login(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}

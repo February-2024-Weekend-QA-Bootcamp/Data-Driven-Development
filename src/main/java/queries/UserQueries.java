@@ -38,11 +38,6 @@ public class UserQueries {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
 		return listOfUsers;
 	}
 }
